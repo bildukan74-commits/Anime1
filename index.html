@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="ru" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Blade — AnimeRealm</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            purple: '#8b5cf6',
+                            pink: '#ec4899',
+                            violet: '#a855f7',
+                            dark: '#0f0d19',
+                            card: 'rgba(23, 20, 38, 0.75)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0914;
+            color: #f3f4f6;
+            overflow-x: hidden;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f0d19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4c1d95;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6d28d9;
+        }
+        /* Glassmorphism utility */
+        .glass-panel {
+            background: rgba(23, 20, 38, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(139, 92, 246, 0.15);
+        }
+        .glass-nav {
+            background: rgba(11, 9, 20, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+        }
+        /* Neon Glow Effects */
+        .neon-glow-purple {
+            box-shadow: 0 0 25px rgba(139, 92, 246, 0.35);
+        }
+        .neon-glow-pink {
+            box-shadow: 0 0 25px rgba(236, 72, 153, 0.35);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        /* Custom Video Player Range styling */
+        input[type=range] {
+            accent-color: #ec4899;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-purple-600 selection:text-white">
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-40 w-full glass-nav transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-300">
+                        <i class="fa-solid font-bold text-lg text-white">刃</i>
+                    </div>
+                    <span class="text-2xl font-black tracking-wider text-white">
+                        Anime<span class="text-gradient">Realm</span>
+                    </span>
+                </a>
+
+                <!-- Desktop Search Bar -->
+                <div class="hidden md:flex items-center relative w-72">
+                    <input type="text" id="searchInput" placeholder="Поиск аниме, жанров..." class="w-full bg-slate-900/80 border border-purple-500/30 rounded-full py-2 pl-10 pr-4 text-sm text-gray-200 placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 text-gray-400 text-sm"></i>
+                </div>
+
+                <!-- Desktop Navigation Menu -->
+                <nav class="hidden lg:flex items-center space-x-8 text-sm font-medium">
+                    <a href="#about" class="text-gray-300 hover:text-purple-400 transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-circle-info text-xs"></i> О тайтле
+                    </a>
+                    <a href="#player" class="text-gray-300 hover:text-purple-400 transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-play text-xs"></i> Смотреть
+                    </a>
+                    <a href="#gallery" class="text-gray-300 hover:text-purple-400 transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-images text-xs"></i> Галерея
+                    </a>
+                    <a href="#comments" class="text-gray-300 hover:text-purple-400 transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-comments text-xs"></i> Отзывы
+                    </a>
+                </nav>
+
+                <!-- Actions / Auth buttons -->
+                <div class="hidden sm:flex items-center gap-4">
+                    <button class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-semibold px-5 py-2.5 rounded-xl shadow-lg hover:shadow-purple-500/25 transition-all text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-user-astronaut"></i> Профиль
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="lg:hidden flex items-center">
+                    <button id="mobileMenuBtn" class="text-gray-300 hover:text-white p-2 focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobileMenu" class="hidden lg:hidden glass-panel border-t border-purple-500/20 px-4 pt-3 pb-6 space-y-3">
+            <div class="relative my-2">
+                <input type="text" placeholder="Поиск аниме..." class="w-full bg-slate-900 border border-purple-500/30 rounded-xl py-2 pl-10 pr-4 text-sm text-gray-200">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-gray-400 text-sm"></i>
+            </div>
+            <a href="#about" class="block text-gray-300 hover:text-purple-400 py-2 font-medium"><i class="fa-solid fa-circle-info mr-2"></i> О тайтле</a>
+            <a href="#player" class="block text-gray-300 hover:text-purple-400 py-2 font-medium"><i class="fa-solid fa-play mr-2"></i> Смотреть плеер</a>
+            <a href="#gallery" class="block text-gray-300 hover:text-purple-400 py-2 font-medium"><i class="fa-solid fa-images mr-2"></i> Галерея кадров</a>
+            <a href="#comments" class="block text-gray-300 hover:text-purple-400 py-2 font-medium"><i class="fa-solid fa-comments mr-2"></i> Отзывы и обсуждения</a>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-16">
+
+        <!-- Title Info / Hero Section -->
+        <section id="about" class="relative rounded-3xl overflow-hidden glass-panel p-6 lg:p-10 border border-purple-500/20 shadow-2xl">
+            <!-- Background Hero Overlay Banner -->
+            <div class="absolute inset-0 z-0 opacity-20 bg-cover bg-center filter blur-md" style="background-image: url('https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=1600&q=80');"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0b0914] via-[#0b0914]/80 to-transparent z-0"></div>
+
+            <div class="relative z-10 flex flex-col lg:flex-row gap-8 items-center lg:items-start">
+                <!-- Poster -->
+                <div class="w-64 sm:w-72 flex-shrink-0 relative group">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl blur opacity-60 group-hover:opacity-100 transition duration-500"></div>
+                    <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=800&q=80" alt="Neon Blade Poster" class="relative rounded-2xl w-full h-[380px] object-cover shadow-2xl">
+                    <span class="absolute top-4 left-4 bg-purple-600/90 text-white text-xs font-bold px-3 py-1.5 rounded-full backdrop-blur-md shadow-lg border border-purple-400/30">
+                        ONGOING
+                    </span>
+                    <span class="absolute top-4 right-4 bg-black/70 text-yellow-400 text-xs font-bold px-3 py-1.5 rounded-full backdrop-blur-md flex items-center gap-1">
+                        <i class="fa-solid fa-star"></i> 4.9
+                    </span>
+                </div>
+
+                <!-- Info Details -->
+                <div class="flex-1 space-y-5 text-center lg:text-left">
+                    <div>
+                        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-2 mb-2">
+                            <span class="text-xs bg-purple-900/60 text-purple-300 border border-purple-500/30 px-3 py-1 rounded-lg">Экшен</span>
+                            <span class="text-xs bg-pink-900/60 text-pink-300 border border-pink-500/30 px-3 py-1 rounded-lg">Киберпанк</span>
+                            <span class="text-xs bg-indigo-900/60 text-indigo-300 border border-indigo-500/30 px-3 py-1 rounded-lg">Фэнтези</span>
+                            <span class="text-xs bg-emerald-900/60 text-emerald-300 border border-emerald-500/30 px-3 py-1 rounded-lg">16+</span>
+                        </div>
+                        <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+                            Магия Неонового Клинка
+                        </h1>
+                        <h2 class="text-lg text-purple-400 font-medium mt-1">Neon Blade: Chronicles of Cyber-Aether (2026)</h2>
+                    </div>
+
+                    <!-- Meta Specs Table Grid -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 py-3 border-y border-purple-500/20 text-sm">
+                        <div class="bg-purple-950/20 p-3 rounded-xl border border-purple-500/10">
+                            <span class="text-gray-400 text-xs block">Эпизоды</span>
+                            <span class="font-bold text-white text-base">12 из 24</span>
+                        </div>
+                        <div class="bg-purple-950/20 p-3 rounded-xl border border-purple-500/10">
+                            <span class="text-gray-400 text-xs block">Длительность</span>
+                            <span class="font-bold text-white text-base">24 мин.</span>
+                        </div>
+                        <div class="bg-purple-950/20 p-3 rounded-xl border border-purple-500/10">
+                            <span class="text-gray-400 text-xs block">Студия</span>
+                            <span class="font-bold text-white text-base">Ufotable X</span>
+                        </div>
+                        <div class="bg-purple-950/20 p-3 rounded-xl border border-purple-500/10">
+                            <span class="text-gray-400 text-xs block">Сезон</span>
+                            <span class="font-bold text-white text-base">Осень 2026</span>
+                        </div>
+                    </div>
+
+                    <!-- Synopsis -->
+                    <p class="text-gray-300 text-sm sm:text-base leading-relaxed">
+                        В футуристическом мегаполисе Нео-Токио 2099 года древняя магия переплетается с кибернетическими технологиями. Главный герой Кайто находит древний клинок, способный рассекать само цифровое пространство. Теперь ему предстоит сразиться с теневой корпорацией, использующей запрещённый эфир для контроля над разумом граждан.
+                    </p>
+
+                    <!-- Quick Buttons -->
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+                        <a href="#player" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold px-7 py-3 rounded-xl shadow-lg shadow-purple-600/30 transition-all flex items-center gap-3 transform hover:-translate-y-0.5">
+                            <i class="fa-solid fa-play"></i> Начать просмотр
+                        </a>
+                        <button id="bookmarkBtn" class="bg-slate-800/80 hover:bg-slate-700 border border-purple-500/30 text-gray-200 font-semibold px-5 py-3 rounded-xl transition-all flex items-center gap-2">
+                            <i class="fa-regular fa-bookmark text-purple-400" id="bookmarkIcon"></i> <span id="bookmarkText">В закладки</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Anime Player Section -->
+        <section id="player" class="space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h3 class="text-2xl font-bold text-white flex items-center gap-3">
+                        <span class="w-3 h-8 bg-gradient-to-b from-purple-500 to-pink-500 rounded-full"></span>
+                        Смотреть онлайн
+                    </h3>
+                    <p class="text-gray-400 text-sm mt-1">Выберите серию и озвучку для наилучшего качества</p>
+                </div>
+                <!-- Dubbing Switcher -->
+                <div class="flex items-center gap-2 bg-slate-900/90 p-1.5 rounded-xl border border-purple-500/20 self-start sm:self-auto">
+                    <button class="dub-btn active px-3 py-1.5 rounded-lg text-xs font-semibold bg-purple-600 text-white transition-all" data-dub="Anidub">Anidub</button>
+                    <button class="dub-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-gray-400 hover:text-white transition-all" data-dub="Studio Band">Studio Band</button>
+                    <button class="dub-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-gray-400 hover:text-white transition-all" data-dub="Субтитры">Субтитры</button>
+                </div>
+            </div>
+
+            <!-- Player Frame Container -->
+            <div class="glass-panel rounded-3xl overflow-hidden border border-purple-500/30 shadow-2xl relative">
+                <div class="relative aspect-video bg-black group" id="videoContainer">
+                    <!-- HTML5 Video Element -->
+                    <video id="mainVideo" class="w-full h-full object-cover cursor-pointer" poster="https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1200&q=80">
+                        <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" type="video/mp4">
+                        Ваш браузер не поддерживает видео.
+                    </video>
+
+                    <!-- Play Overlay Button (Initial Big Button) -->
+                    <div id="bigPlayBtn" class="absolute inset-0 flex items-center justify-center bg-black/40 cursor-pointer transition-opacity duration-300">
+                        <div class="w-20 h-20 rounded-full bg-purple-600/90 hover:bg-pink-600 text-white flex items-center justify-center shadow-2xl transition-all transform hover:scale-110 border-2 border-white/30">
+                            <i class="fa-solid fa-play text-3xl ml-1"></i>
+                        </div>
+                    </div>
+
+                    <!-- Custom Control Bar -->
+                    <div id="videoControls" class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/95 via-black/70 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col gap-2">
+                        <!-- Progress Bar -->
+                        <div class="flex items-center gap-2">
+                            <input type="range" id="progressBar" min="0" max="100" value="0" class="w-full h-1.5 bg-gray-700 rounded-lg appearance-none cursor-pointer">
+                        </div>
+
+                        <!-- Buttons Row -->
+                        <div class="flex items-center justify-between text-white text-sm">
+                            <div class="flex items-center gap-4">
+                                <button id="playPauseBtn" class="hover:text-purple-400 transition-colors">
+                                    <i class="fa-solid fa-play text-lg" id="playIcon"></i>
+                                </button>
+                                <div class="flex items-center gap-2 group/vol">
+                                    <button id="muteBtn" class="hover:text-purple-400 transition-colors">
+                                        <i class="fa-solid fa-volume-high" id="volumeIcon"></i>
+                                    </button>
+                                    <input type="range" id="volumeBar" min="0" max="1" step="0.1" value="1" class="w-16 h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer">
+                                </div>
+                                <span class="text-xs text-gray-300 font-mono">
+                                    <span id="currentTime">00:00</span> / <span id="durationTime">00:00</span>
+                                </span>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <span id="currentDubBadge" class="text-xs bg-purple-900/80 px-2.5 py-1 rounded border border-purple-500/30 text-purple-200">
+                                    Anidub
+                                </span>
+                                <!-- Quality Dropdown -->
+                                <select id="qualitySelect" class="bg-slate-900 text-xs border border-purple-500/30 rounded px-2 py-1 focus:outline-none text-gray-200">
+                                    <option value="1080p">1080p HD</option>
+                                    <option value="720p">720p</option>
+                                    <option value="480p">480p</option>
+                                </select>
+                                <button id="fullscreenBtn" class="hover:text-purple-400 transition-colors">
+                                    <i class="fa-solid fa-expand text-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Episode Selector Grid -->
+                <div class="p-4 sm:p-6 bg-slate-950/60 border-t border-purple-500/20">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-sm font-semibold text-gray-300">Список серий:</span>
+                        <span class="text-xs text-purple-400">Текущая: <span id="activeEpTitle">Серия 1 — Пробуждение</span></span>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-12 gap-2" id="episodesList">
+                        <!-- Dynamically Generated via JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Image Gallery Section -->
+        <section id="gallery" class="space-y-6">
+            <div>
+                <h3 class="text-2xl font-bold text-white flex items-center gap-3">
+                    <span class="w-3 h-8 bg-gradient-to-b from-purple-500 to-pink-500 rounded-full"></span>
+                    Галерея и Кадры
+                </h3>
+                <p class="text-gray-400 text-sm mt-1">Нажмите на кадр для полноэкранного просмотра</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" id="galleryGrid">
+                <!-- Gallery Item 1 -->
+                <div class="gallery-item group relative rounded-2xl overflow-hidden glass-panel border border-purple-500/20 cursor-pointer h-52">
+                    <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=800&q=80" alt="Shot 1" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                        <span class="text-sm font-semibold text-white"><i class="fa-solid fa-magnifying-glass-plus mr-1"></i> Кайто и Неоновый Клинок</span>
+                    </div>
+                </div>
+                <!-- Gallery Item 2 -->
+                <div class="gallery-item group relative rounded-2xl overflow-hidden glass-panel border border-purple-500/20 cursor-pointer h-52">
+                    <img src="https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=800&q=80" alt="Shot 2" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                        <span class="text-sm font-semibold text-white"><i class="fa-solid fa-magnifying-glass-plus mr-1"></i> Ночной Нео-Токио</span>
+                    </div>
+                </div>
+                <!-- Gallery Item 3 -->
+                <div class="gallery-item group relative rounded-2xl overflow-hidden glass-panel border border-purple-500/20 cursor-pointer h-52">
+                    <img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80" alt="Shot 3" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                        <span class="text-sm font-semibold text-white"><i class="fa-solid fa-magnifying-glass-plus mr-1"></i> Дуэль в Киберпространстве</span>
+                    </div>
+                </div>
+                <!-- Gallery Item 4 -->
+                <div class="gallery-item group relative rounded-2xl overflow-hidden glass-panel border border-purple-500/20 cursor-pointer h-52">
+                    <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80" alt="Shot 4" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                        <span class="text-sm font-semibold text-white"><i class="fa-solid fa-magnifying-glass-plus mr-1"></i> Эфирный Кристалл</span>
+                    </div>
+                </div>
+                <!-- Gallery Item 5 -->
+                <div class="gallery-item group relative rounded-2xl overflow-hidden glass-panel border border-purple-500/20 cursor-pointer h-52">
+                    <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80" alt="Shot 5" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                        <span class="text-sm font-semibold text-white"><i class="fa-solid fa-magnifying-glass-plus mr-1"></i> Финальная Битва</span>
+                    </div>
+                </div>
+                <!-- Gallery Item 6 -->
+                <div class="gallery-item group relative rounded-2xl overflow-hidden glass-panel border border-purple-500/20 cursor-pointer h-52">
+                    <img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=800&q=80" alt="Shot 6" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                        <span class="text-sm font-semibold text-white"><i class="fa-solid fa-magnifying-glass-plus mr-1"></i> Концепт-Арт Персонажей</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reviews & Comments Section -->
+        <section id="comments" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Side: Add Comment Form -->
+            <div class="lg:col-span-1 space-y-4">
+                <div class="glass-panel p-6 rounded-3xl border border-purple-500/20 sticky top-28">
+                    <h3 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-pen-to-square text-pink-500"></i> Оставить отзыв
+                    </h3>
+                    <p class="text-xs text-gray-400 mb-4">Поделитесь вашими впечатлениями о просмотренном аниме</p>
+
+                    <form id="commentForm" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-300 mb-1">Ваше имя / Никнейм</label>
+                            <input type="text" id="authorInput" required placeholder="Например, Otaku_2026" class="w-full bg-slate-900 border border-purple-500/30 rounded-xl px-4 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-purple-500 transition-colors">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-medium text-gray-300 mb-1">Ваша оценка</label>
+                            <div class="flex items-center gap-1 text-2xl text-gray-600" id="starRating">
+                                <i class="fa-solid fa-star cursor-pointer hover:text-yellow-400 transition-colors" data-value="1"></i>
+                                <i class="fa-solid fa-star cursor-pointer hover:text-yellow-400 transition-colors" data-value="2"></i>
+                                <i class="fa-solid fa-star cursor-pointer hover:text-yellow-400 transition-colors" data-value="3"></i>
+                                <i class="fa-solid fa-star cursor-pointer hover:text-yellow-400 transition-colors" data-value="4"></i>
+                                <i class="fa-solid fa-star cursor-pointer hover:text-yellow-400 transition-colors" data-value="5"></i>
+                            </div>
+                            <input type="hidden" id="ratingInput" value="5">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-medium text-gray-300 mb-1">Текст комментария</label>
+                            <textarea id="commentTextInput" rows="4" required placeholder="Напишите ваш отзыв здесь..." class="w-full bg-slate-900 border border-purple-500/30 rounded-xl p-3 text-sm text-gray-200 focus:outline-none focus:border-purple-500 transition-colors resize-none"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-semibold py-3 rounded-xl shadow-lg transition-all text-sm flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-paper-plane"></i> Опубликовать
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Side: Comments List -->
+            <div class="lg:col-span-2 space-y-4">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="text-2xl font-bold text-white flex items-center gap-3">
+                        <span class="w-3 h-8 bg-gradient-to-b from-purple-500 to-pink-500 rounded-full"></span>
+                        Отзывы зрителей (<span id="commentsCount">3</span>)
+                    </h3>
+                </div>
+
+                <div class="space-y-4" id="commentsList">
+                    <!-- Preloaded Comment 1 -->
+                    <div class="glass-panel p-5 rounded-2xl border border-purple-500/20 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=CyberSamurai" alt="Avatar" class="w-10 h-10 rounded-full bg-purple-900/50 p-1 border border-purple-400/30">
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">CyberSamurai</h4>
+                                    <span class="text-xs text-gray-400">10 минут назад</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center text-yellow-400 text-xs">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 text-sm leading-relaxed">
+                            Анимация в 3 серии просто невероятная! Ufotable снова доказали свой уровень. Рисовка боёвок и звуковые эффекты на высоте!
+                        </p>
+                        <div class="flex items-center gap-4 text-xs text-gray-400 pt-2 border-t border-purple-500/10">
+                            <button class="like-btn hover:text-pink-400 transition-colors flex items-center gap-1">
+                                <i class="fa-regular fa-heart"></i> <span class="like-count">14</span>
+                            </button>
+                            <button class="hover:text-purple-400 transition-colors">Ответить</button>
+                        </div>
+                    </div>
+
+                    <!-- Preloaded Comment 2 -->
+                    <div class="glass-panel p-5 rounded-2xl border border-purple-500/20 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <img src="https://api.dicebear.com/7.x/bottts/svg?seed=AkiraFan" alt="Avatar" class="w-10 h-10 rounded-full bg-pink-900/50 p-1 border border-pink-400/30">
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">Akira_Neon</h4>
+                                    <span class="text-xs text-gray-400">2 часа назад</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center text-yellow-400 text-xs">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 text-sm leading-relaxed">
+                            Очень интересный сюжет, сочетание киберпанка и магии прямо освежает жанр. Жду следующую серию!
+                        </p>
+                        <div class="flex items-center gap-4 text-xs text-gray-400 pt-2 border-t border-purple-500/10">
+                            <button class="like-btn hover:text-pink-400 transition-colors flex items-center gap-1">
+                                <i class="fa-regular fa-heart"></i> <span class="like-count">8</span>
+                            </button>
+                            <button class="hover:text-purple-400 transition-colors">Ответить</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="glass-nav border-t border-purple-500/20 mt-20 py-10 text-gray-400 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center font-bold text-white">
+                        刃
+                    </div>
+                    <span class="text-xl font-extrabold text-white">AnimeRealm</span>
+                </div>
+
+                <p class="text-center text-xs text-gray-500">
+                    &copy; 2026 AnimeRealm Portal. Все права на аниме принадлежат их правообладателям.
+                </p>
+
+                <div class="flex items-center space-x-5 text-lg text-gray-400">
+                    <a href="#" class="hover:text-purple-400 transition-colors"><i class="fa-brands fa-telegram"></i></a>
+                    <a href="#" class="hover:text-purple-400 transition-colors"><i class="fa-brands fa-vk"></i></a>
+                    <a href="#" class="hover:text-purple-400 transition-colors"><i class="fa-brands fa-discord"></i></a>
+                    <a href="#" class="hover:text-purple-400 transition-colors"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lightbox Modal -->
+    <div id="lightboxModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl hidden flex items-center justify-center p-4">
+        <button id="closeLightbox" class="absolute top-6 right-6 text-white text-3xl hover:text-purple-400 transition-colors">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="max-w-4xl max-h-[85vh] relative">
+            <img id="lightboxImage" src="" alt="Enlarged screenshot" class="max-w-full max-h-[85vh] object-contain rounded-2xl border border-purple-500/30 shadow-2xl">
+            <p id="lightboxCaption" class="text-center text-gray-300 text-sm mt-3 font-medium"></p>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Mobile Navigation Toggle
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // 2. Episodes Generator & Selector
+            const totalEpisodes = 12;
+            const episodesList = document.getElementById('episodesList');
+            const activeEpTitle = document.getElementById('activeEpTitle');
+
+            for (let i = 1; i <= totalEpisodes; i++) {
+                const btn = document.createElement('button');
+                btn.className = `ep-btn py-2 px-3 text-xs font-semibold rounded-xl border transition-all duration-200 text-center ${
+                    i === 1 
+                        ? 'bg-gradient-to-r from-purple-600 to-pink-600 border-transparent text-white shadow-lg shadow-purple-500/30' 
+                        : 'bg-slate-900 border-purple-500/20 text-gray-300 hover:border-purple-500/50 hover:text-white'
+                }`;
+                btn.innerText = `Серия ${i}`;
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.ep-btn').forEach(b => {
+                        b.className = 'ep-btn py-2 px-3 text-xs font-semibold rounded-xl border transition-all duration-200 text-center bg-slate-900 border-purple-500/20 text-gray-300 hover:border-purple-500/50 hover:text-white';
+                    });
+                    btn.className = 'ep-btn py-2 px-3 text-xs font-semibold rounded-xl border transition-all duration-200 text-center bg-gradient-to-r from-purple-600 to-pink-600 border-transparent text-white shadow-lg shadow-purple-500/30';
+                    activeEpTitle.innerText = `Серия ${i} — ${getEpisodeTitle(i)}`;
+                    // Restart Video Simulation
+                    mainVideo.currentTime = 0;
+                    mainVideo.play();
+                    updatePlayState(true);
+                });
+                episodesList.appendChild(btn);
+            }
+
+            function getEpisodeTitle(num) {
+                const titles = [
+                    'Пробуждение', 'Клинок в Тьме', 'Кибернетический Эфир', 
+                    'Протокол Тени', 'Призраки Нео-Токио', 'Неоновый Рассвет',
+                    'Разрыв Связи', 'Запретный Код', 'Свободный Сигнал',
+                    'Атака Ядра', 'Финальный Импульс', 'Новая Эра'
+                ];
+                return titles[num - 1] || 'Эпизод';
+            }
+
+            // 3. Dubbing Switcher Logic
+            const dubBtns = document.querySelectorAll('.dub-btn');
+            const currentDubBadge = document.getElementById('currentDubBadge');
+
+            dubBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    dubBtns.forEach(b => {
+                        b.classList.remove('bg-purple-600', 'text-white');
+                        b.classList.add('text-gray-400');
+                    });
+                    btn.classList.add('bg-purple-600', 'text-white');
+                    btn.classList.remove('text-gray-400');
+                    currentDubBadge.innerText = btn.getAttribute('data-dub');
+                });
+            });
+
+            // 4. Custom Video Player Controls
+            const mainVideo = document.getElementById('mainVideo');
+            const bigPlayBtn = document.getElementById('bigPlayBtn');
+            const playPauseBtn = document.getElementById('playPauseBtn');
+            const playIcon = document.getElementById('playIcon');
+            const progressBar = document.getElementById('progressBar');
+            const volumeBar = document.getElementById('volumeBar');
+            const muteBtn = document.getElementById('muteBtn');
+            const volumeIcon = document.getElementById('volumeIcon');
+            const currentTimeEl = document.getElementById('currentTime');
+            const durationTimeEl = document.getElementById('durationTime');
+            const fullscreenBtn = document.getElementById('fullscreenBtn');
+            const videoContainer = document.getElementById('videoContainer');
+
+            function togglePlay() {
+                if (mainVideo.paused) {
+                    mainVideo.play();
+                    updatePlayState(true);
+                } else {
+                    mainVideo.pause();
+                    updatePlayState(false);
+                }
+            }
+
+            function updatePlayState(isPlaying) {
+                if (isPlaying) {
+                    playIcon.className = 'fa-solid fa-pause text-lg';
+                    bigPlayBtn.classList.add('opacity-0', 'pointer-events-none');
+                } else {
+                    playIcon.className = 'fa-solid fa-play text-lg';
+                    bigPlayBtn.classList.remove('opacity-0', 'pointer-events-none');
+                }
+            }
+
+            bigPlayBtn.addEventListener('click', togglePlay);
+            playPauseBtn.addEventListener('click', togglePlay);
+            mainVideo.addEventListener('click', togglePlay);
+
+            mainVideo.addEventListener('timeupdate', () => {
+                if (mainVideo.duration) {
+                    const pct = (mainVideo.currentTime / mainVideo.duration) * 100;
+                    progressBar.value = pct;
+                    currentTimeEl.innerText = formatTime(mainVideo.currentTime);
+                    durationTimeEl.innerText = formatTime(mainVideo.duration);
+                }
+            });
+
+            progressBar.addEventListener('input', () => {
+                const targetTime = (progressBar.value / 100) * mainVideo.duration;
+                mainVideo.currentTime = targetTime;
+            });
+
+            volumeBar.addEventListener('input', (e) => {
+                mainVideo.volume = e.target.value;
+                mainVideo.muted = e.target.value === '0';
+                updateVolumeIcon();
+            });
+
+            muteBtn.addEventListener('click', () => {
+                mainVideo.muted = !mainVideo.muted;
+                updateVolumeIcon();
+            });
+
+            function updateVolumeIcon() {
+                if (mainVideo.muted || mainVideo.volume === 0) {
+                    volumeIcon.className = 'fa-solid fa-volume-xmark';
+                } else if (mainVideo.volume < 0.5) {
+                    volumeIcon.className = 'fa-solid fa-volume-low';
+                } else {
+                    volumeIcon.className = 'fa-solid fa-volume-high';
+                }
+            }
+
+            fullscreenBtn.addEventListener('click', () => {
+                if (!document.fullscreenElement) {
+                    videoContainer.requestFullscreen().catch(err => alert(`Ошибка полноэкранного режима: ${err.message}`));
+                } else {
+                    document.exitFullscreen();
+                }
+            });
+
+            function formatTime(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+            }
+
+            // 5. Bookmark Toggle
+            const bookmarkBtn = document.getElementById('bookmarkBtn');
+            const bookmarkIcon = document.getElementById('bookmarkIcon');
+            const bookmarkText = document.getElementById('bookmarkText');
+            let isBookmarked = false;
+
+            bookmarkBtn.addEventListener('click', () => {
+                isBookmarked = !isBookmarked;
+                if (isBookmarked) {
+                    bookmarkIcon.className = 'fa-solid fa-bookmark text-pink-500';
+                    bookmarkText.innerText = 'В закладках';
+                    bookmarkBtn.classList.add('border-pink-500/50');
+                } else {
+                    bookmarkIcon.className = 'fa-regular fa-bookmark text-purple-400';
+                    bookmarkText.innerText = 'В закладки';
+                    bookmarkBtn.classList.remove('border-pink-500/50');
+                }
+            });
+
+            // 6. Lightbox Modal Gallery
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            const lightboxModal = document.getElementById('lightboxModal');
+            const lightboxImage = document.getElementById('lightboxImage');
+            const lightboxCaption = document.getElementById('lightboxCaption');
+            const closeLightbox = document.getElementById('closeLightbox');
+
+            galleryItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const img = item.querySelector('img');
+                    const caption = item.querySelector('span').innerText;
+                    lightboxImage.src = img.src;
+                    lightboxCaption.innerText = caption;
+                    lightboxModal.classList.remove('hidden');
+                });
+            });
+
+            closeLightbox.addEventListener('click', () => {
+                lightboxModal.classList.add('hidden');
+            });
+
+            lightboxModal.addEventListener('click', (e) => {
+                if (e.target === lightboxModal) {
+                    lightboxModal.classList.add('hidden');
+                }
+            });
+
+            // 7. Interactive Star Rating System in Form
+            const starContainer = document.getElementById('starRating');
+            const stars = starContainer.querySelectorAll('i');
+            const ratingInput = document.getElementById('ratingInput');
+
+            stars.forEach(star => {
+                star.addEventListener('click', () => {
+                    const val = parseInt(star.getAttribute('data-value'));
+                    ratingInput.value = val;
+                    updateStars(val);
+                });
+            });
+
+            function updateStars(val) {
+                stars.forEach((star, index) => {
+                    if (index < val) {
+                        star.className = 'fa-solid fa-star cursor-pointer text-yellow-400 transition-colors';
+                    } else {
+                        star.className = 'fa-regular fa-star cursor-pointer hover:text-yellow-400 transition-colors';
+                    }
+                });
+            }
+
+            // 8. Add New Comments dynamically
+            const commentForm = document.getElementById('commentForm');
+            const commentsList = document.getElementById('commentsList');
+            const commentsCount = document.getElementById('commentsCount');
+            let currentCount = 2;
+
+            commentForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const author = document.getElementById('authorInput').value;
+                const text = document.getElementById('commentTextInput').value;
+                const rating = parseInt(ratingInput.value);
+
+                let starHTML = '';
+                for (let i = 1; i <= 5; i++) {
+                    if (i <= rating) {
+                        starHTML += '<i class="fa-solid fa-star"></i>';
+                    } else {
+                        starHTML += '<i class="fa-regular fa-star"></i>';
+                    }
+                }
+
+                const commentCard = document.createElement('div');
+                commentCard.className = 'glass-panel p-5 rounded-2xl border border-purple-500/20 space-y-3 transform transition-all duration-300 translate-y-2';
+                commentCard.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(author)}" alt="Avatar" class="w-10 h-10 rounded-full bg-purple-900/50 p-1 border border-purple-400/30">
+                            <div>
+                                <h4 class="font-bold text-white text-sm">${escapeHTML(author)}</h4>
+                                <span class="text-xs text-gray-400">Только что</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center text-yellow-400 text-xs">
+                            ${starHTML}
+                        </div>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed">${escapeHTML(text)}</p>
+                    <div class="flex items-center gap-4 text-xs text-gray-400 pt-2 border-t border-purple-500/10">
+                        <button class="like-btn hover:text-pink-400 transition-colors flex items-center gap-1">
+                            <i class="fa-regular fa-heart"></i> <span class="like-count">0</span>
+                        </button>
+                        <button class="hover:text-purple-400 transition-colors">Ответить</button>
+                    </div>
+                `;
+
+                commentsList.prepend(commentCard);
+                currentCount++;
+                commentsCount.innerText = currentCount;
+
+                // Reset Form
+                commentForm.reset();
+                updateStars(5);
+                ratingInput.value = 5;
+
+                // Bind Like button for new comment
+                bindLikes(commentCard.querySelector('.like-btn'));
+            });
+
+            // Like Button Handler
+            function bindLikes(btn) {
+                btn.addEventListener('click', () => {
+                    const icon = btn.querySelector('i');
+                    const countEl = btn.querySelector('.like-count');
+                    let count = parseInt(countEl.innerText);
+
+                    if (icon.classList.contains('fa-regular')) {
+                        icon.className = 'fa-solid fa-heart text-pink-500';
+                        countEl.innerText = count + 1;
+                    } else {
+                        icon.className = 'fa-regular fa-heart';
+                        countEl.innerText = count - 1;
+                    }
+                });
+            }
+
+            document.querySelectorAll('.like-btn').forEach(bindLikes);
+
+            function escapeHTML(str) {
+                return str.replace(/[&<>'"]/g, 
+                    tag => ({
+                        '&': '&amp;',
+                        '<': '&lt;',
+                        '>': '&gt;',
+                        "'": '&#39;',
+                        '"': '&quot;'
+                    }[tag] || tag)
+                );
+            }
+        });
+    </script>
+</body>
+</html>
