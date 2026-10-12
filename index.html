@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MazAnime — Как и ожидалось, моя школьная романтическая жизнь не удалась</title>
-    
-    <!-- Tailwind CSS CDN -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -14,11 +13,11 @@
                 extend: {
                     colors: {
                         brand: {
-                            purple: '#8b5cf6',
-                            pink: '#ec4899',
-                            violet: '#a855f7',
-                            dark: '#0f0d19',
-                            card: 'rgba(18, 15, 30, 0.75)'
+                            emerald: '#10b981',
+                            green: '#059669',
+                            darkgreen: '#06130b',
+                            dark: '#050a07',
+                            card: 'rgba(10, 22, 14, 0.8)'
                         }
                     },
                     fontFamily: {
@@ -28,60 +27,65 @@
             }
         }
     </script>
-    
-    <!-- Google Fonts & FontAwesome -->
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0b0914;
-            color: #f3f4f6;
+            background-color: #040805;
+            color: #ffffff;
             overflow-x: hidden;
         }
         .neon-glow {
-            box-shadow: 0 0 25px rgba(139, 92, 246, 0.35);
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.25);
         }
         .glass-panel {
-            background: rgba(18, 15, 30, 0.75);
+            background: rgba(10, 22, 14, 0.8);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.2);
         }
         .custom-scrollbar::-webkit-scrollbar {
             width: 6px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
-            background: #0b0914;
+            background: #040805;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #3b3363;
+            background: #064e3b;
             border-radius: 3px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #8b5cf6;
+            background: #10b981;
         }
-        /* Mobile-optimized responsive player container */
         .player-container {
             position: relative;
             width: 100%;
-            padding-bottom: 75%; /* Extra height on mobile screens for Google Drive controls */
+            padding-bottom: 75%;
         }
         @media (min-width: 640px) {
             .player-container {
-                padding-bottom: 56.25%; /* Standard 16:9 aspect ratio on tablets/desktop */
+                padding-bottom: 56.25%;
             }
+        }
+        .star-rating i {
+            cursor: pointer;
+            transition: color 0.2s, transform 0.1s;
+        }
+        .star-rating i:hover {
+            transform: scale(1.15);
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col selection:bg-brand-purple selection:text-white">
+<body class="min-h-screen flex flex-col selection:bg-brand-emerald selection:text-black">
 
     <!-- Header / Navbar -->
-    <header class="glass-panel sticky top-0 z-50 border-b border-purple-900/30">
+    <header class="glass-panel sticky top-0 z-50 border-b border-emerald-900/40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-purple to-brand-pink flex items-center justify-center neon-glow">
-                    <i class="fa-solid fa-film text-white text-xl"></i>
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-green-400 flex items-center justify-center neon-glow">
+                    <i class="fa-solid fa-film text-black font-bold text-xl"></i>
                 </div>
                 <span class="text-2xl font-black tracking-wider text-white">
                     MazAnime
@@ -97,13 +101,14 @@
         <section class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
             <!-- Poster -->
             <div class="lg:col-span-1">
-                <div class="relative rounded-2xl overflow-hidden neon-glow group">
+                <div class="relative rounded-2xl overflow-hidden neon-glow group border border-emerald-900/40">
                     <img src="https://images-s.kinorium.com/movie/poster/688959/1080_50918887.jpg" alt="Как и ожидалось, моя школьная романтическая жизнь не удалась" class="w-full h-[480px] object-cover group-hover:scale-105 transition duration-500">
-                    <div class="absolute top-4 right-4 bg-black/70 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-yellow-400 border border-yellow-500/30">
-                        <i class="fa-solid fa-star mr-1"></i> 9.2 / 10
+                    <div class="absolute top-4 right-4 bg-black/80 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
+                        <i class="fa-solid fa-star text-amber-400"></i>
+                        <span id="averageRatingPoster">9.2 / 10</span>
                     </div>
                     <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-6">
-                        <span class="bg-brand-purple/80 text-white text-xs px-3 py-1 rounded-full font-semibold">TV Сериал</span>
+                        <span class="bg-emerald-600 text-white text-xs px-3 py-1 rounded-full font-semibold">TV Сериал</span>
                     </div>
                 </div>
             </div>
@@ -112,19 +117,30 @@
             <div class="lg:col-span-2 flex flex-col justify-between">
                 <div>
                     <div class="flex flex-wrap items-center gap-2 mb-3">
-                        <span class="text-xs px-3 py-1 rounded-full bg-purple-900/50 text-purple-300 border border-purple-700/50">Комедия</span>
-                        <span class="text-xs px-3 py-1 rounded-full bg-pink-900/50 text-pink-300 border border-pink-700/50">Драма</span>
-                        <span class="text-xs px-3 py-1 rounded-full bg-indigo-900/50 text-indigo-300 border border-indigo-700/50">Романтика</span>
-                        <span class="text-xs px-3 py-1 rounded-full bg-blue-900/50 text-blue-300 border border-blue-700/50">Школа</span>
-                        <span class="text-xs px-3 py-1 rounded-full bg-amber-900/50 text-amber-300 border border-amber-700/50">Повседневность</span>
+                        <span class="text-xs px-3 py-1 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800/50">Комедия</span>
+                        <span class="text-xs px-3 py-1 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800/50">Драма</span>
+                        <span class="text-xs px-3 py-1 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800/50">Романтика</span>
+                        <span class="text-xs px-3 py-1 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800/50">Школа</span>
+                        <span class="text-xs px-3 py-1 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800/50">Повседневность</span>
                     </div>
 
                     <h1 class="text-2xl sm:text-4xl font-extrabold mb-2 text-white tracking-tight">
                         Как и ожидалось, моя школьная романтическая жизнь не удалась
                     </h1>
-                    <h2 class="text-lg sm:text-xl text-brand-purple font-medium mb-4">
+                    <h2 class="text-lg sm:text-xl text-emerald-400 font-medium mb-4">
                         Yahari Ore no Seishun Love Comedy wa Machigatteiru.
                     </h2>
+
+                    <!-- Rating Badge -->
+                    <div class="mb-6 flex items-center space-x-3 bg-emerald-950/40 border border-emerald-800/50 p-3 rounded-xl w-fit">
+                        <div class="flex items-center text-amber-400 text-lg">
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs text-gray-400">Средняя оценка пользователей:</div>
+                            <div class="text-sm font-bold text-white"><span id="averageRatingText">9.2</span> из 10 <span id="totalReviewsCount" class="text-xs font-normal text-gray-400">(0 отзывов)</span></div>
+                        </div>
+                    </div>
 
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6 p-4 rounded-xl glass-panel text-sm">
                         <div>
@@ -137,7 +153,7 @@
                         </div>
                         <div>
                             <span class="text-gray-400 block text-xs">Статус</span>
-                            <span class="font-semibold text-green-400">Вышел</span>
+                            <span class="font-semibold text-emerald-400">Вышел</span>
                         </div>
                         <div>
                             <span class="text-gray-400 block text-xs">Первоисточник</span>
@@ -149,30 +165,30 @@
                         </div>
                         <div>
                             <span class="text-gray-400 block text-xs">Озвучка</span>
-                            <span class="font-semibold text-brand-pink">AniLibria</span>
+                            <span class="font-semibold text-emerald-400">AniLibria</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    <button onclick="scrollToPlayer()" class="bg-brand-purple hover:bg-brand-purple/80 text-white font-bold px-8 py-3 rounded-xl shadow-lg transition flex items-center space-x-2 neon-glow">
+                    <a href="#player-section" class="bg-emerald-500 hover:bg-emerald-600 text-black font-bold px-8 py-3 rounded-xl shadow-lg transition flex items-center space-x-2 neon-glow">
                         <i class="fa-solid fa-play"></i>
                         <span>Смотреть аниме</span>
-                    </button>
+                    </a>
                 </div>
             </div>
         </section>
 
         <!-- Video Player Section -->
-        <section id="playerSection" class="mb-12">
+        <section id="player-section" class="mb-12">
             <div class="glass-panel rounded-2xl p-3 sm:p-6 neon-glow">
                 <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-lg sm:text-xl font-bold text-white"><i class="fa-solid fa-film text-brand-purple mr-2"></i> Плеер</h2>
-                    <span class="text-xs bg-brand-pink/20 text-brand-pink px-2.5 py-1 rounded-md font-semibold border border-brand-pink/30">AniLibria</span>
+                    <h2 class="text-lg sm:text-xl font-bold text-white"><i class="fa-solid fa-film text-emerald-400 mr-2"></i> Плеер</h2>
+                    <span class="text-xs bg-emerald-950 text-emerald-400 px-2.5 py-1 rounded-md font-semibold border border-emerald-800/60">AniLibria</span>
                 </div>
 
-                <!-- Video Iframe Container -->
-                <div class="player-container bg-black rounded-xl overflow-hidden shadow-2xl border border-purple-900/40">
+                <!-- Video Container -->
+                <div class="player-container bg-black rounded-xl overflow-hidden shadow-2xl border border-emerald-900/40">
                     <iframe 
                         id="videoPlayer"
                         src="https://drive.google.com/file/d/1yhRDYjZ8qyN_prUcKZzOHJ-yQFEIDSu7/preview" 
@@ -182,22 +198,22 @@
                     </iframe>
                 </div>
 
-                <!-- Episode Selector Buttons -->
+                <!-- Episode Selector -->
                 <div class="mt-6">
                     <h3 class="text-xs sm:text-sm font-semibold text-gray-400 mb-3 uppercase tracking-wider">Выбор серии:</h3>
                     <div class="flex flex-wrap gap-2 max-h-40 overflow-y-auto custom-scrollbar p-1">
-                        <button class="episode-btn active bg-brand-purple text-white px-4 py-2 rounded-xl text-sm font-bold shadow transition transform hover:scale-105" onclick="changeEpisode('1yhRDYjZ8qyN_prUcKZzOHJ-yQFEIDSu7', 1, event)">1 серия</button>
-                        <button class="episode-btn bg-purple-950/60 hover:bg-purple-900/60 text-gray-300 px-4 py-2 rounded-xl text-sm font-medium transition" onclick="changeEpisode('1dHg-SQB4N5DRFJbIiRiv1u_V3FY4C9cM', 2, event)">2 серия</button>
-                        <button class="episode-btn bg-purple-950/60 hover:bg-purple-900/60 text-gray-300 px-4 py-2 rounded-xl text-sm font-medium transition" onclick="changeEpisode('', 3, event)">3 серия</button>
-                        <button class="episode-btn bg-purple-950/60 hover:bg-purple-900/60 text-gray-300 px-4 py-2 rounded-xl text-sm font-medium transition" onclick="changeEpisode('', 4, event)">4 серия</button>
-                        <button class="episode-btn bg-purple-950/60 hover:bg-purple-900/60 text-gray-300 px-4 py-2 rounded-xl text-sm font-medium transition" onclick="changeEpisode('', 5, event)">5 серия</button>
-                        <button class="episode-btn bg-purple-950/60 hover:bg-purple-900/60 text-gray-300 px-4 py-2 rounded-xl text-sm font-medium transition" onclick="changeEpisode('', 6, event)">6 серия</button>
-                        <button class="episode-btn bg-purple-950/60 hover:bg-purple-900/60 text-gray-300 px-4 py-2 rounded-xl text-sm font-medium transition" onclick="changeEpisode('', 7, event)">7 серия</button>
-                        <button class="episode-btn bg-purple-950/60 hover:bg-purple-900/60 text-gray-300 px-4 py-2 rounded-xl text-sm font-medium transition" onclick="changeEpisode('', 8, event)">8 серия</button>
-                        <button class="episode-btn bg-purple-950/60 hover:bg-purple-900/60 text-gray-300 px-4 py-2 rounded-xl text-sm font-medium transition" onclick="changeEpisode('', 9, event)">9 серия</button>
-                        <button class="episode-btn bg-purple-950/60 hover:bg-purple-900/60 text-gray-300 px-4 py-2 rounded-xl text-sm font-medium transition" onclick="changeEpisode('', 10, event)">10 серия</button>
-                        <button class="episode-btn bg-purple-950/60 hover:bg-purple-900/60 text-gray-300 px-4 py-2 rounded-xl text-sm font-medium transition" onclick="changeEpisode('', 11, event)">11 серия</button>
-                        <button class="episode-btn bg-purple-950/60 hover:bg-purple-900/60 text-gray-300 px-4 py-2 rounded-xl text-sm font-medium transition" onclick="changeEpisode('', 12, event)">12 серия</button>
+                        <button class="episode-btn active bg-emerald-500 text-black px-4 py-2 rounded-xl text-sm font-bold shadow transition transform hover:scale-105" onclick="changeEpisode('1yhRDYjZ8qyN_prUcKZzOHJ-yQFEIDSu7', 1, event)">1 серия</button>
+                        <button class="episode-btn bg-emerald-950/80 hover:bg-emerald-900/80 text-gray-200 px-4 py-2 rounded-xl text-sm font-medium transition border border-emerald-900/40" onclick="changeEpisode('1dHg-SQB4N5DRFJbIiRiv1u_V3FY4C9cM', 2, event)">2 серия</button>
+                        <button class="episode-btn bg-emerald-950/80 hover:bg-emerald-900/80 text-gray-200 px-4 py-2 rounded-xl text-sm font-medium transition border border-emerald-900/40" onclick="changeEpisode('', 3, event)">3 серия</button>
+                        <button class="episode-btn bg-emerald-950/80 hover:bg-emerald-900/80 text-gray-200 px-4 py-2 rounded-xl text-sm font-medium transition border border-emerald-900/40" onclick="changeEpisode('', 4, event)">4 серия</button>
+                        <button class="episode-btn bg-emerald-950/80 hover:bg-emerald-900/80 text-gray-200 px-4 py-2 rounded-xl text-sm font-medium transition border border-emerald-900/40" onclick="changeEpisode('', 5, event)">5 серия</button>
+                        <button class="episode-btn bg-emerald-950/80 hover:bg-emerald-900/80 text-gray-200 px-4 py-2 rounded-xl text-sm font-medium transition border border-emerald-900/40" onclick="changeEpisode('', 6, event)">6 серия</button>
+                        <button class="episode-btn bg-emerald-950/80 hover:bg-emerald-900/80 text-gray-200 px-4 py-2 rounded-xl text-sm font-medium transition border border-emerald-900/40" onclick="changeEpisode('', 7, event)">7 серия</button>
+                        <button class="episode-btn bg-emerald-950/80 hover:bg-emerald-900/80 text-gray-200 px-4 py-2 rounded-xl text-sm font-medium transition border border-emerald-900/40" onclick="changeEpisode('', 8, event)">8 серия</button>
+                        <button class="episode-btn bg-emerald-950/80 hover:bg-emerald-900/80 text-gray-200 px-4 py-2 rounded-xl text-sm font-medium transition border border-emerald-900/40" onclick="changeEpisode('', 9, event)">9 серия</button>
+                        <button class="episode-btn bg-emerald-950/80 hover:bg-emerald-900/80 text-gray-200 px-4 py-2 rounded-xl text-sm font-medium transition border border-emerald-900/40" onclick="changeEpisode('', 10, event)">10 серия</button>
+                        <button class="episode-btn bg-emerald-950/80 hover:bg-emerald-900/80 text-gray-200 px-4 py-2 rounded-xl text-sm font-medium transition border border-emerald-900/40" onclick="changeEpisode('', 11, event)">11 серия</button>
+                        <button class="episode-btn bg-emerald-950/80 hover:bg-emerald-900/80 text-gray-200 px-4 py-2 rounded-xl text-sm font-medium transition border border-emerald-900/40" onclick="changeEpisode('', 12, event)">12 серия</button>
                     </div>
                 </div>
             </div>
@@ -206,52 +222,64 @@
         <!-- Gallery Section -->
         <section class="mb-12">
             <h2 class="text-2xl font-bold mb-6 text-white flex items-center">
-                <i class="fa-solid fa-images text-brand-pink mr-3"></i> Кадры
+                <i class="fa-solid fa-images text-emerald-400 mr-3"></i> Кадры
             </h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div class="rounded-xl overflow-hidden glass-panel group cursor-pointer" onclick="openLightbox('https://images-s.kinorium.com/movie/poster/688959/w1500_50424871.jpg')">
+                <div class="rounded-xl overflow-hidden glass-panel group cursor-pointer border border-emerald-900/40" onclick="openLightbox('https://images-s.kinorium.com/movie/poster/688959/w1500_50424871.jpg')">
                     <img src="https://images-s.kinorium.com/movie/poster/688959/w1500_50424871.jpg" alt="Постер 2" class="w-full h-56 object-cover group-hover:scale-110 transition duration-500">
                 </div>
-                <div class="rounded-xl overflow-hidden glass-panel group cursor-pointer" onclick="openLightbox('https://i.ytimg.com/vi/FEUoTl1AX-o/maxresdefault.jpg')">
+                <div class="rounded-xl overflow-hidden glass-panel group cursor-pointer border border-emerald-900/40" onclick="openLightbox('https://i.ytimg.com/vi/FEUoTl1AX-o/maxresdefault.jpg')">
                     <img src="https://i.ytimg.com/vi/FEUoTl1AX-o/maxresdefault.jpg" alt="Кадр 1" class="w-full h-56 object-cover group-hover:scale-110 transition duration-500">
                 </div>
-                <div class="rounded-xl overflow-hidden glass-panel group cursor-pointer" onclick="openLightbox('https://images-s.kinorium.com/movie/poster/688959/1080_50918887.jpg')">
+                <div class="rounded-xl overflow-hidden glass-panel group cursor-pointer border border-emerald-900/40" onclick="openLightbox('https://images-s.kinorium.com/movie/poster/688959/1080_50918887.jpg')">
                     <img src="https://images-s.kinorium.com/movie/poster/688959/1080_50918887.jpg" alt="Постер 1" class="w-full h-56 object-cover group-hover:scale-110 transition duration-500">
                 </div>
             </div>
         </section>
 
-        <!-- Comments Section -->
+        <!-- Reviews & Comments Section -->
         <section class="mb-12">
             <h2 class="text-2xl font-bold mb-6 text-white flex items-center">
-                <i class="fa-solid fa-comments text-brand-purple mr-3"></i> Комментарии
+                <i class="fa-solid fa-star-half-stroke text-emerald-400 mr-3"></i> Отзывы и оценки
             </h2>
 
-            <div class="glass-panel rounded-2xl p-6 mb-8 border border-purple-900/40">
-                <h3 class="text-lg font-semibold mb-4 text-white">Оставить отзыв</h3>
+            <div class="glass-panel rounded-2xl p-6 mb-8 border border-emerald-900/40">
+                <h3 class="text-lg font-semibold mb-4 text-white">Оставить отзыв и оценку</h3>
                 <form id="commentForm" onsubmit="addComment(event)" class="space-y-4">
-                    <input type="text" id="userName" placeholder="Ваше имя" required class="w-full bg-purple-950/50 border border-purple-800/40 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-purple transition">
-                    <textarea id="userText" placeholder="Напишите ваше мнение об аниме..." rows="3" required class="w-full bg-purple-950/50 border border-purple-800/40 rounded-xl p-4 text-sm text-white focus:outline-none focus:border-brand-purple transition"></textarea>
-                    <button type="submit" class="bg-gradient-to-r from-brand-purple to-brand-pink text-white font-bold px-6 py-3 rounded-xl shadow-lg transition hover:opacity-90">
-                        Отправить
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="text" id="userName" placeholder="Ваше имя" required class="w-full bg-emerald-950/40 border border-emerald-800/50 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-400 transition">
+                        
+                        <!-- Star Rating Selector -->
+                        <div class="flex items-center space-x-2 bg-emerald-950/40 border border-emerald-800/50 rounded-xl px-4 py-2">
+                            <span class="text-xs text-gray-400 mr-1">Оценка:</span>
+                            <div id="starRating" class="star-rating flex text-gray-600 text-lg space-x-1">
+                                <i class="fa-solid fa-star" data-rating="1"></i>
+                                <i class="fa-solid fa-star" data-rating="2"></i>
+                                <i class="fa-solid fa-star" data-rating="3"></i>
+                                <i class="fa-solid fa-star" data-rating="4"></i>
+                                <i class="fa-solid fa-star" data-rating="5"></i>
+                                <i class="fa-solid fa-star" data-rating="6"></i>
+                                <i class="fa-solid fa-star" data-rating="7"></i>
+                                <i class="fa-solid fa-star" data-rating="8"></i>
+                                <i class="fa-solid fa-star" data-rating="9"></i>
+                                <i class="fa-solid fa-star" data-rating="10"></i>
+                            </div>
+                            <span id="ratingValueText" class="text-sm font-bold text-emerald-400 ml-2">10 / 10</span>
+                        </div>
+                    </div>
+
+                    <textarea id="userText" placeholder="Поделитесь вашим впечатлением об аниме..." rows="3" required class="w-full bg-emerald-950/40 border border-emerald-800/50 rounded-xl p-4 text-sm text-white focus:outline-none focus:border-emerald-400 transition"></textarea>
+                    
+                    <button type="submit" class="bg-emerald-500 hover:bg-emerald-600 text-black font-bold px-6 py-3 rounded-xl shadow-lg transition flex items-center space-x-2">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>Опубликовать отзыв</span>
                     </button>
                 </form>
             </div>
 
             <div id="commentsList" class="space-y-4">
-                <div class="glass-panel rounded-2xl p-5 border border-purple-900/30">
-                    <div class="flex items-center space-x-3 mb-2">
-                        <div class="w-8 h-8 rounded-full bg-brand-purple flex items-center justify-center font-bold text-white text-sm">
-                            M
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-white text-sm">Mazuhiro</h4>
-                            <span class="text-xs text-gray-400">Администратор</span>
-                        </div>
-                    </div>
-                    <p class="text-gray-300 text-sm leading-relaxed">
-                        Приятного просмотра! 2 серия уже доступна.
-                    </p>
+                <div class="glass-panel rounded-2xl p-5 border border-emerald-900/30">
+                    <p class="text-gray-400 text-sm">Загрузка отзывов...</p>
                 </div>
             </div>
         </section>
@@ -259,7 +287,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="glass-panel border-t border-purple-900/40 py-8 text-center text-gray-400 text-sm">
+    <footer class="glass-panel border-t border-emerald-900/40 py-8 text-center text-gray-400 text-sm">
         <div class="max-w-7xl mx-auto px-4">
             <p>&copy; 2026 MazAnime. Все права защищены.</p>
         </div>
@@ -267,11 +295,68 @@
 
     <!-- Lightbox Modal -->
     <div id="lightbox" class="fixed inset-0 z-50 bg-black/90 hidden items-center justify-center p-4" onclick="closeLightbox()">
-        <img id="lightboxImg" src="" alt="Full view" class="max-w-full max-h-[90vh] rounded-xl object-contain shadow-2xl border border-purple-500/30">
+        <img id="lightboxImg" src="" alt="Full view" class="max-w-full max-h-[90vh] rounded-xl object-contain shadow-2xl border border-emerald-500/30">
     </div>
 
-    <!-- JavaScript Logic -->
+    <!-- Firebase SDK (Compat) -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+    <!-- JS & Firebase Integration -->
     <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyC8HVhzvSvtuaRZq3kBCurjdWR-IQJbSdc",
+            authDomain: "topanime-92a7c.firebaseapp.com",
+            projectId: "topanime-92a7c",
+            storageBucket: "topanime-92a7c.appspot.com",
+            messagingSenderId: "508701474730",
+            appId: "1:508701474730:web:44da90142923b0abb8b5d3"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        let currentRating = 10;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const stars = document.querySelectorAll('#starRating i');
+            const ratingValueText = document.getElementById('ratingValueText');
+
+            function updateStars(rating) {
+                stars.forEach(star => {
+                    const r = parseInt(star.getAttribute('data-rating'));
+                    if (r <= rating) {
+                        star.classList.remove('text-gray-600');
+                        star.classList.add('text-amber-400');
+                    } else {
+                        star.classList.remove('text-amber-400');
+                        star.classList.add('text-gray-600');
+                    }
+                });
+            }
+
+            updateStars(currentRating);
+
+            stars.forEach(star => {
+                star.addEventListener('click', (e) => {
+                    currentRating = parseInt(e.target.getAttribute('data-rating'));
+                    ratingValueText.innerText = `${currentRating} / 10`;
+                    updateStars(currentRating);
+                });
+
+                star.addEventListener('mouseover', (e) => {
+                    const hoverRating = parseInt(e.target.getAttribute('data-rating'));
+                    updateStars(hoverRating);
+                });
+
+                star.addEventListener('mouseleave', () => {
+                    updateStars(currentRating);
+                });
+            });
+
+            loadComments();
+        });
+
         function changeEpisode(fileId, epNumber, event) {
             const iframe = document.getElementById('videoPlayer');
 
@@ -283,18 +368,14 @@
             }
 
             document.querySelectorAll('.episode-btn').forEach(btn => {
-                btn.classList.remove('active', 'bg-brand-purple', 'text-white', 'font-bold');
-                btn.classList.add('bg-purple-950/60', 'text-gray-300', 'font-medium');
+                btn.classList.remove('active', 'bg-emerald-500', 'text-black', 'font-bold');
+                btn.classList.add('bg-emerald-950/80', 'text-gray-200', 'font-medium');
             });
 
             if (event && event.target) {
-                event.target.classList.remove('bg-purple-950/60', 'text-gray-300', 'font-medium');
-                event.target.classList.add('active', 'bg-brand-purple', 'text-white', 'font-bold');
+                event.target.classList.remove('bg-emerald-950/80', 'text-gray-200', 'font-medium');
+                event.target.classList.add('active', 'bg-emerald-500', 'text-black', 'font-bold');
             }
-        }
-
-        function scrollToPlayer() {
-            document.getElementById('playerSection').scrollIntoView({ behavior: 'smooth' });
         }
 
         function openLightbox(src) {
@@ -311,29 +392,128 @@
             lightbox.classList.add('hidden');
         }
 
-        function addComment(event) {
+        // Добавление отзыва
+        async function addComment(event) {
             event.preventDefault();
-            const name = document.getElementById('userName').value;
-            const text = document.getElementById('userText').value;
+            const nameInput = document.getElementById('userName');
+            const textInput = document.getElementById('userText');
+            
+            const name = nameInput.value.trim();
+            const text = textInput.value.trim();
+
+            if (!name || !text) return;
+
+            try {
+                await db.collection('comments').add({
+                    name: name,
+                    text: text,
+                    rating: currentRating,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                nameInput.value = '';
+                textInput.value = '';
+                loadComments();
+            } catch (error) {
+                console.error("Ошибка при отправке: ", error);
+                alert("Ошибка при сохранении отзыва.");
+            }
+        }
+
+        // Функция удаления комментария по ID
+        async function deleteComment(id) {
+            if (!confirm("Вы уверены, что хотите удалить этот отзыв?")) return;
+
+            try {
+                await db.collection('comments').doc(id).delete();
+                loadComments();
+            } catch (error) {
+                console.error("Ошибка при удалении: ", error);
+                alert("Не удалось удалить отзыв.");
+            }
+        }
+
+        // Загрузка отзывов и расчет среднего рейтинга
+        async function loadComments() {
             const commentsList = document.getElementById('commentsList');
+            const averageRatingText = document.getElementById('averageRatingText');
+            const averageRatingPoster = document.getElementById('averageRatingPoster');
+            const totalReviewsCount = document.getElementById('totalReviewsCount');
+            
+            try {
+                const snapshot = await db.collection('comments').orderBy('createdAt', 'desc').get();
+                commentsList.innerHTML = '';
 
-            const newComment = document.createElement('div');
-            newComment.className = 'glass-panel rounded-2xl p-5 border border-purple-900/30';
-            newComment.innerHTML = `
-                <div class="flex items-center space-x-3 mb-2">
-                    <div class="w-8 h-8 rounded-full bg-brand-pink flex items-center justify-center font-bold text-white text-sm">
-                        ${name.charAt(0).toUpperCase()}
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-white text-sm">${name}</h4>
-                        <span class="text-xs text-gray-400">Только что</span>
-                    </div>
-                </div>
-                <p class="text-gray-300 text-sm leading-relaxed">${text}</p>
-            `;
+                if (snapshot.empty) {
+                    commentsList.innerHTML = '<p class="text-gray-400 text-sm">Пока нет отзывов. Будьте первыми!</p>';
+                    averageRatingText.innerText = "9.2";
+                    averageRatingPoster.innerText = "9.2 / 10";
+                    totalReviewsCount.innerText = "(0 отзывов)";
+                    return;
+                }
 
-            commentsList.prepend(newComment);
-            document.getElementById('commentForm').reset();
+                let totalScore = 0;
+                let count = 0;
+
+                snapshot.forEach(doc => {
+                    const comment = doc.data();
+                    const docId = doc.id;
+                    const rating = comment.rating || 10;
+                    totalScore += rating;
+                    count++;
+
+                    const initial = comment.name ? comment.name.charAt(0).toUpperCase() : 'U';
+                    
+                    const commentEl = document.createElement('div');
+                    commentEl.className = 'glass-panel rounded-2xl p-5 border border-emerald-900/30';
+                    commentEl.innerHTML = `
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center font-bold text-black text-sm">
+                                    ${initial}
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">${escapeHtml(comment.name)}</h4>
+                                    <span class="text-xs text-gray-400">Отзыв</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="flex items-center bg-emerald-950/85 px-3 py-1 rounded-full border border-emerald-800/60 text-xs font-bold text-amber-400">
+                                    <i class="fa-solid fa-star mr-1.5"></i>
+                                    <span>${rating} / 10</span>
+                                </div>
+                                <button onclick="deleteComment('${docId}')" class="text-red-400 hover:text-red-300 p-1.5 transition rounded-lg hover:bg-red-500/10" title="Удалить отзыв">
+                                    <i class="fa-solid fa-trash text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 text-sm leading-relaxed">${escapeHtml(comment.text)}</p>
+                    `;
+                    commentsList.appendChild(commentEl);
+                });
+
+                const avg = (totalScore / count).toFixed(1);
+                averageRatingText.innerText = avg;
+                averageRatingPoster.innerText = `${avg} / 10`;
+                totalReviewsCount.innerText = `(${count} ${getNoun(count, 'отзыв', 'отзыва', 'отзывов')})`;
+
+            } catch (error) {
+                console.error("Ошибка загрузки: ", error);
+            }
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        function getNoun(number, one, two, five) {
+            let n = Math.abs(number);
+            n %= 100;
+            if (n >= 5 && n <= 20) return five;
+            n %= 10;
+            if (n === 1) return one;
+            if (n >= 2 && n <= 4) return two;
+            return five;
         }
     </script>
 </body>
