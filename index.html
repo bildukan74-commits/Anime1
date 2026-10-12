@@ -317,6 +317,29 @@
         const db = firebase.firestore();
 
         let currentRating = 10;
+        const ADMIN_PASSWORD = "mazuro"; // <--- Секретный пароль администратора (можете изменить)
+
+        function getMyCommentIds() {
+            try {
+                return JSON.parse(localStorage.getItem('my_comments_ids')) || [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function saveMyCommentId(id) {
+            const ids = getMyCommentIds();
+            if (!ids.includes(id)) {
+                ids.push(id);
+                localStorage.setItem('my_comments_ids', JSON.stringify(ids));
+            }
+        }
+
+        function removeMyCommentId(id) {
+            let ids = getMyCommentIds();
+            ids = ids.filter(item => item !== id);
+            localStorage.setItem('my_comments_ids', JSON.stringify(ids));
+        }
 
         document.addEventListener('DOMContentLoaded', () => {
             const stars = document.querySelectorAll('#starRating i');
@@ -404,12 +427,14 @@
             if (!name || !text) return;
 
             try {
-                await db.collection('comments').add({
+                const docRef = await db.collection('comments').add({
                     name: name,
                     text: text,
                     rating: currentRating,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
+
+                saveMyCommentId(docRef.id);
 
                 nameInput.value = '';
                 textInput.value = '';
@@ -420,12 +445,26 @@
             }
         }
 
-        // Функция удаления комментария по ID
+        // Функция удаления: свои удаляются сразу, чужие — по паролю администратора
         async function deleteComment(id) {
-            if (!confirm("Вы уверены, что хотите удалить этот отзыв?")) return;
+            const myCommentIds = getMyCommentIds();
+            const isMyComment = myCommentIds.includes(id);
+
+            if (isMyComment) {
+                if (!confirm("Вы уверены, что хотите удалить свой отзыв?")) return;
+            } else {
+                // Если комментарий чужой, запрашиваем пароль администратора
+                const password = prompt("Это чужой комментарий. Введите пароль администратора для удаления:");
+                if (password === null) return; // Нажали отмена
+                if (password !== ADMIN_PASSWORD) {
+                    alert("Неверный пароль администратора!");
+                    return;
+                }
+            }
 
             try {
                 await db.collection('comments').doc(id).delete();
+                removeMyCommentId(id);
                 loadComments();
             } catch (error) {
                 console.error("Ошибка при удалении: ", error);
@@ -439,6 +478,7 @@
             const averageRatingText = document.getElementById('averageRatingText');
             const averageRatingPoster = document.getElementById('averageRatingPoster');
             const totalReviewsCount = document.getElementById('totalReviewsCount');
+            const myCommentIds = getMyCommentIds();
             
             try {
                 const snapshot = await db.collection('comments').orderBy('createdAt', 'desc').get();
@@ -463,6 +503,7 @@
                     count++;
 
                     const initial = comment.name ? comment.name.charAt(0).toUpperCase() : 'U';
+                    const isMyComment = myCommentIds.includes(docId);
                     
                     const commentEl = document.createElement('div');
                     commentEl.className = 'glass-panel rounded-2xl p-5 border border-emerald-900/30';
@@ -473,7 +514,10 @@
                                     ${initial}
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-white text-sm">${escapeHtml(comment.name)}</h4>
+                                    <div class="flex items-center space-x-2">
+                                        <h4 class="font-bold text-white text-sm">${escapeHtml(comment.name)}</h4>
+                                        ${isMyComment ? '<span class="text-[10px] bg-emerald-900/80 text-emerald-300 px-2 py-0.5 rounded-full font-semibold border border-emerald-700/50">Вы</span>' : ''}
+                                    </div>
                                     <span class="text-xs text-gray-400">Отзыв</span>
                                 </div>
                             </div>
